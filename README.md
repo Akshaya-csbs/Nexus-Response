@@ -8,8 +8,9 @@
 ![React](https://img.shields.io/badge/React-19-blue)
 ![TypeScript](https://img.shields.io/badge/TypeScript-Ready-blue)
 ![License](https://img.shields.io/badge/License-MIT-yellow)
+![GDG Hackathon 2026](https://img.shields.io/badge/GDG%20Hackathon-2026-orange)
 
-**NexusResponse** is a next-generation crisis coordination and emergency resource management system. Built for facility administrators and emergency responders, it provides real-time situational awareness, dynamic resource tracking, and automated guest guidance during critical events to ensure rapid, coordinated responses.
+**NexusResponse** is a next-generation crisis coordination and emergency resource management system proudly built for the **GDG Hackathon 2026**. Powered by the expansive Google ecosystem—including **Google Gemini**, **Vertex AI**, **AI Studio**, and **Google Cloud Platform** (Firebase)—it provides real-time situational awareness, dynamic resource tracking, and automated guest guidance during critical events. Developed alongside Google DeepMind's **Antigravity** AI coding assistant, NexusResponse ensures rapid, intelligent, and coordinated crisis management.
 
 ## 🌟 Features
 
@@ -19,7 +20,10 @@
 - **Guest Guide Interface (SafeStay)**: A guest-facing portal providing interactive facility maps, SOS features, and dynamic evacuation routes during an emergency.
 - **System Activity Logging**: Comprehensive transaction and event history for the NexusResponse Hub.
 - **Visual Demo Mode**: Includes an immersive presentation mode simulating crisis coordination capabilities.
-- **AI Integration**: Dynamically generated, context-aware evacuation routes powered by Google Gemini.
+- **AI Integration**: Dynamically generated, context-aware evacuation routes powered by **Google Gemini** and fine-tuned via **Google AI Studio**.
+- **Agentic Development**: Built and iterated rapidly with the help of **Antigravity**, Google DeepMind's advanced agentic AI coding assistant.
+- **Enterprise-Grade AI Infrastructure**: Prepared for scale using **Google Vertex AI** for robust model deployment and operations.
+- **Cloud-Native Backbone**: Fully integrated with **Google Cloud Platform (GCP)**, utilizing Firebase for real-time synchronization, auth, and secure data storage.
 
 ## 📋 Requirements
 
@@ -145,9 +149,13 @@ NEXUS-SMART-RESPONSE/
 
 1. **Frontend Framework**: [React 19](https://react.dev/) + [TypeScript](https://www.typescriptlang.org/) + [Vite](https://vitejs.dev/)
 2. **Styling & Animation**: [Tailwind CSS v4](https://tailwindcss.com/) + [Framer Motion](https://motion.dev/)
-3. **Backend & Real-time Database**: [Firebase v12](https://firebase.google.com/)
-4. **Generative AI**: [Google GenAI SDK](https://github.com/google/gemini-nodejs)
-5. **Data Visualization**: [Recharts](https://recharts.org/)
+3. **Backend & Infrastructure**: [Firebase v12](https://firebase.google.com/) running on **Google Cloud Platform (GCP)**
+4. **Generative AI & Tooling**: 
+   - **Google Gemini** (via GenAI SDK)
+   - **Google AI Studio** for rapid prompt engineering
+   - **Google Vertex AI** for enterprise scalability
+5. **Agentic Assistant**: Google DeepMind's **Antigravity**
+6. **Data Visualization**: [Recharts](https://recharts.org/)
 
 ## 🔒 Privacy & Security
 
@@ -228,8 +236,10 @@ For issues, questions, or suggestions:
 
 ## 🙏 Acknowledgments
 
+- **GDG Hackathon 2026** organizers and community for providing the platform to build this solution
+- Google DeepMind for the **Antigravity** agentic AI
+- Google Cloud for providing the backbone via **Firebase**, **Vertex AI**, and **AI Studio**
 - The React and Vite communities
-- Google for the Gemini API
 - The developers of Tailwind CSS and Framer Motion
 
 ## 🔮 Future Enhancements
