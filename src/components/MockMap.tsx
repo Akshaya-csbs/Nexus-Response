@@ -18,16 +18,16 @@ const MockMap: React.FC<MockMapProps> = ({ rooms, crises, className, onRoomClick
     const layout = [];
     const cols = 8;
     const rows = 5;
-    
+
     for (let r = 0; r < rows; r++) {
       for (let c = 0; c < cols; c++) {
         // Leave some gaps for hallways
         if (c === 3 || r === 2) continue;
-        
+
         const floor = 4;
         const roomIdx = (r * cols + c).toString().padStart(2, '0');
         const roomNumber = `${floor}${roomIdx}`;
-        
+
         layout.push({
           x: c * 100,
           y: r * 100,
@@ -42,8 +42,8 @@ const MockMap: React.FC<MockMapProps> = ({ rooms, crises, className, onRoomClick
 
   return (
     <div className={cn("relative bg-slate-50 rounded-3xl overflow-hidden border border-slate-200", className)}>
-      <svg 
-        viewBox="-20 -20 820 520" 
+      <svg
+        viewBox="-20 -20 820 520"
         className="w-full h-full drop-shadow-2xl"
         preserveAspectRatio="xMidYMid meet"
       >
@@ -56,19 +56,21 @@ const MockMap: React.FC<MockMapProps> = ({ rooms, crises, className, onRoomClick
           const roomData = rooms.find(r => r.roomNumber === room.id);
           const crisis = crises.find(c => c.roomNumber === room.id && c.status === 'active');
           const isHighlighted = highlightRoom === room.id;
-          
+
           let statusColor = "fill-white stroke-slate-200";
           let textColor = "fill-slate-400";
           let animate = false;
+
+          const hasActiveCrisis = crises.some(c => c.status === 'active');
 
           if (crisis) {
             statusColor = "fill-error/20 stroke-error";
             textColor = "fill-error";
             animate = true;
-          } else if (roomData?.occupancyStatus === 'occupied') {
-            statusColor = "fill-slate-900 stroke-slate-800";
+          } else if (roomData?.occupancyStatus === 'occupied' || room.id === '412') {
+            statusColor = "fill-[#0b1c30] stroke-[#0b1c30]/50";
             textColor = "fill-white";
-          } else if (roomData?.occupancyStatus === 'evacuated') {
+          } else if (hasActiveCrisis && roomData?.occupancyStatus === 'evacuated') {
             statusColor = "fill-emerald-50/50 stroke-emerald-500";
             textColor = "fill-emerald-600";
           }
@@ -78,7 +80,7 @@ const MockMap: React.FC<MockMapProps> = ({ rooms, crises, className, onRoomClick
           }
 
           return (
-            <motion.g 
+            <motion.g
               key={room.id}
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -86,13 +88,13 @@ const MockMap: React.FC<MockMapProps> = ({ rooms, crises, className, onRoomClick
               className="cursor-pointer"
               onClick={() => onRoomClick?.(room.id)}
             >
-              <rect 
+              <rect
                 x={room.x} y={room.y} width={room.w} height={room.h} rx="12"
                 className={cn("transition-colors duration-500", statusColor)}
               />
-              
+
               {animate && (
-                <motion.rect 
+                <motion.rect
                   x={room.x - 5} y={room.y - 5} width={room.w + 10} height={room.h + 10} rx="16"
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: [0, 0.5, 0], scale: [1, 1.1, 1] }}
@@ -101,10 +103,10 @@ const MockMap: React.FC<MockMapProps> = ({ rooms, crises, className, onRoomClick
                 />
               )}
 
-              <text 
-                x={room.x + room.w / 2} 
-                y={room.y + room.h / 2} 
-                textAnchor="middle" 
+              <text
+                x={room.x + room.w / 2}
+                y={room.y + room.h / 2}
+                textAnchor="middle"
                 dominantBaseline="central"
                 className={cn("font-headline font-black text-lg italic", textColor)}
               >
