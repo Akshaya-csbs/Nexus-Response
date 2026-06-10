@@ -109,28 +109,94 @@ This project demonstrates:
 - Enterprise-grade AI scalability through **Google Vertex AI**
 - Accelerated agentic development with **Google DeepMind's Antigravity**
 
+## 🏗️ System Architecture
+
+NexusResponse is built on a modern, decoupled cloud architecture utilizing Google Cloud Platform (GCP) and advanced Generative AI services. The diagram below illustrates the platform flow and component boundaries:
+
+```mermaid
+graph TD
+    subgraph Client Tier (User Interfaces)
+        AdminHub["Operations Control Hub / Sentinel UI<br/>(React & Tailwind CSS)"]
+        GuestPortal["Guest Guide / SafeStay Portal<br/>(React & Framer Motion)"]
+    end
+
+    subgraph Serverless & Cloud Infrastructure (GCP)
+        Auth["Firebase Authentication<br/>(Anonymous Guest Auth)"]
+        Firestore[("Firebase Firestore<br/>(Real-Time Database)")]
+    end
+
+    subgraph Generative AI Engine
+        Gemini["Google Gemini API & Vertex AI<br/>(Evacuation Route Generator)"]
+    end
+
+    %% Interactions
+    AdminHub <-->|Real-time Sync| Firestore
+    GuestPortal <-->|Real-time Sync| Firestore
+    GuestPortal -->|Anonymous Auth| Auth
+    AdminHub -->|Trigger Mock Crisis / Evacuation| Firestore
+    Firestore -->|Contextual Hazard Data| Gemini
+    Gemini -->|Structured Route Guidance| GuestPortal
+```
+
+### Architectural Breakdown:
+- **Client Tier**: Separate interfaces for administrators (Sentinel UI) and guests (SafeStay Portal).
+- **Cloud Infrastructure**: Firebase handles real-time state synchronization, reducing latency to milliseconds, and manages quick anonymous sessions for guests in crisis zones.
+- **Generative AI Engine**: Powered by Google Gemini and Google Cloud's Vertex AI to read building layouts, locate hazard zones, and dynamically compute safe evacuation pathways.
+
+---
+
 ## 🔬 How It Works
 
 ### Crisis Detection Pipeline
 
-1. Threat reported or mock crisis triggered
-2. System logs event to Firebase Firestore
-3. Real-time listeners update the Admin Dashboard
-4. Automated alerts are dispatched to the Guest Interface
+1. **Threat Reported**: A critical threat (e.g. fire, structural damage) is manually entered or triggered via mock simulation.
+2. **Database Logging**: The incident details are immediately written to Firebase Firestore.
+3. **Admin Alerting**: The real-time listeners on the Sentinel Dashboard update all connected operations terminals instantly.
+4. **Guest Broadcast**: Automated emergency signals are dispatched to all guest SafeStay instances.
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor Admin as Crisis Administrator / Drill System
+    participant DB as Firebase Firestore
+    participant AI as Google Gemini / Vertex AI
+    actor Guest as SafeStay Guest Portal
+
+    Admin->>DB: Report threat (e.g., Fire in Sector Alpha)
+    Note over DB: Trigger real-time Firestore listeners
+    DB-->>Guest: Broadcast Alert: Evacuation Protocol Engaged
+    Guest->>DB: Retrieve building layout & current hazard coordinates
+    DB-->>Guest: Contextual hazard & floor plans
+    Guest->>AI: Request dynamic safe evacuation route
+    AI-->>Guest: Stream step-by-step turn-by-turn navigation instructions
+    Note over Guest: Render layout and active evacuation instructions
+```
 
 ### Evacuation Generation Pipeline
 
-1. Threat location identified (floor, room)
-2. Safe routes calculated away from the hazard zone
-3. Gemini AI generates structured, step-by-step instructions
-4. Instructions stream directly to affected users' SafeStay portals
+1. **Hazard Mapping**: The system identifies the hazard's exact location (floor, sector, room).
+2. **Context Compilation**: Active threats, safe zones, and building coordinates are compiled.
+3. **AI Generation**: The Google Gemini model processes the context and computes step-by-step navigation instructions avoiding hazard zones.
+4. **Real-time Streaming**: Evacuation instructions are fed directly to affected users' SafeStay portals.
 
 ### Resource Inventory Pipeline
 
-1. Admins input or adjust inventory levels in draft mode
-2. Visual progress bars reflect current capacity vs. nominal capacity
-3. Upon save, batched updates are sent to the database
-4. Facilities remain synced across all connected Admin terminals
+1. **Local Adjustments**: Admins adjust inventory levels (supplies, safety kits) in local draft mode.
+2. **Capacity Assessment**: The UI recalculates progress bars and status indicators based on active thresholds.
+3. **Batched Synchronization**: When saved, updates are packaged into a batched Firestore commit.
+4. **Terminal Sync**: State is propagated to all open administrator dashboards.
+
+```mermaid
+stateDiagram-v2
+    [*] --> Idle: Display current resource capacity
+    Idle --> DraftMode: Admin starts adjusting inventory levels
+    DraftMode --> UIProgressBars: Calculate resource status locally
+    UIProgressBars --> DraftMode: Edit further
+    DraftMode --> SaveAction: Click "Save & Sync"
+    SaveAction --> FirebaseSync: Fire batched Firestore write
+    FirebaseSync --> UpdatedState: Real-time update broadcasted
+    UpdatedState --> Idle: Synced across all Admin terminals
+```
 
 ## 📊 Understanding Results
 
